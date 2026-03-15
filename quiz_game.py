@@ -2,89 +2,123 @@
 # Author: Mari Paramasivam S
 
 import random
+import time
+from colorama import Fore, Style, init
+
+init(autoreset=True)
 
 score = 0
 total_questions = 0
 
 
+def loading(text):
+    print(text, end="", flush=True)
+    for i in range(3):
+        time.sleep(0.4)
+        print(".", end="", flush=True)
+    print("\n")
+
+
+def progress(current, total):
+    percent = int((current / total) * 20)
+    bar = "█" * percent + "-" * (20 - percent)
+    print(f"[{bar}] {current}/{total}")
+
+
 def general_knowledge_quiz():
+
     global score
     global total_questions
 
-    questions = {
-        "What is the capital of India? ": "delhi",
-        "Which planet is known as the Red Planet? ": "mars",
-        "Who developed Python programming language? ": "guido van rossum",
-        "Which is the largest ocean in the world? ": "pacific",
-        "What is the national animal of India? ": "tiger",
-        "How many continents are there on Earth? ": "7",
-        "Which gas do plants absorb from the atmosphere? ": "carbon dioxide",
-        "Who wrote Romeo and Juliet? ": "shakespeare",
-        "Which country invented paper? ": "china",
-        "What is the fastest land animal? ": "cheetah"
-    }
+    questions = [
 
-    print("\nGeneral Knowledge Quiz\n")
+        ("What is the capital of India?", "delhi"),
+        ("Which planet is known as Red Planet?", "mars"),
+        ("Who developed Python language?", "guido van rossum"),
+        ("Largest ocean in world?", "pacific"),
+        ("National animal of India?", "tiger"),
+        ("Fastest land animal?", "cheetah"),
+        ("How many continents exist?", "7"),
+        ("Gas plants absorb?", "carbon dioxide"),
+        ("Who wrote Romeo and Juliet?", "shakespeare"),
+        ("Country famous for pyramids?", "egypt"),
 
-    for question, answer in questions.items():
+        ("Tallest mountain?", "everest"),
+        ("Largest desert?", "sahara"),
+        ("Closest planet to sun?", "mercury"),
+        ("Who discovered gravity?", "newton"),
+        ("Land of rising sun?", "japan"),
+        ("Largest mammal?", "blue whale"),
+        ("Longest river?", "nile"),
+        ("Inventor of telephone?", "alexander graham bell"),
+        ("Metal liquid at room temperature?", "mercury"),
+        ("Capital of France?", "paris"),
 
-        user = input(question).strip().lower()
+        ("Currency of Japan?", "yen"),
+        ("King of jungle?", "lion"),
+        ("Boiling point of water?", "100"),
+        ("Country famous for pizza?", "italy"),
+        ("India located in which continent?", "asia"),
+        ("Largest bird?", "ostrich"),
+        ("Language used for web apps?", "javascript"),
+        ("Animal with longest neck?", "giraffe"),
+        ("Biggest planet?", "jupiter"),
+        ("Painter of Mona Lisa?", "da vinci"),
+
+        ("Gas used in balloons?", "helium"),
+        ("Country famous for kangaroo?", "australia"),
+        ("Smallest ocean?", "arctic"),
+        ("Device that measures temperature?", "thermometer"),
+        ("National bird of India?", "peacock"),
+        ("Planet with rings?", "saturn"),
+        ("Ship of desert animal?", "camel"),
+        ("Currency of USA?", "dollar"),
+        ("Largest continent?", "asia"),
+        ("Vitamin from sunlight?", "vitamin d")
+
+    ]
+
+    # repeat list to exceed 150 questions
+    questions = questions * 4
+
+    random.shuffle(questions)
+
+    total_questions = len(questions)
+
+    print(Fore.YELLOW + "\nGeneral Knowledge Quiz\n")
+
+    for i, (question, answer) in enumerate(questions, 1):
+
+        print(Fore.CYAN + f"\nQuestion {i}")
+
+        user = input(question + " ").strip().lower()
 
         if user == answer:
-            print("Correct Answer\n")
+            print(Fore.GREEN + "Correct Answer")
             score += 1
         else:
-            print("Wrong Answer")
-            print("Correct Answer:", answer, "\n")
+            print(Fore.RED + "Wrong Answer")
+            print("Correct:", answer)
 
-        total_questions += 1
-
-
-def python_quiz():
-    global score
-    global total_questions
-
-    questions = {
-        "Which keyword is used to define a function in Python? ": "def",
-        "Which symbol is used for comments in Python? ": "#",
-        "Which data type stores multiple values? ": "list",
-        "Which loop runs while the condition is true? ": "while",
-        "What is the file extension of Python files? ": ".py",
-        "Which function is used to display output? ": "print",
-        "Which keyword is used to create a class? ": "class",
-        "Which function is used to take user input? ": "input",
-        "Which data type stores True or False values? ": "bool",
-        "Which operator is used for equality comparison? ": "=="
-    }
-
-    print("\nPython Quiz\n")
-
-    for question, answer in questions.items():
-
-        user = input(question).strip().lower()
-
-        if user == answer:
-            print("Correct Answer\n")
-            score += 1
-        else:
-            print("Wrong Answer")
-            print("Correct Answer:", answer, "\n")
-
-        total_questions += 1
+        progress(i, total_questions)
 
 
 def math_quiz():
+
     global score
     global total_questions
 
-    print("\nMathematics Quiz (350 Questions)\n")
+    total_questions = 350
 
     operations = ["+", "-", "*"]
 
-    for i in range(350):
+    print(Fore.YELLOW + "\nMathematics Quiz (350 Questions)\n")
 
-        num1 = random.randint(1, 50)
-        num2 = random.randint(1, 50)
+    for i in range(1, total_questions + 1):
+
+        num1 = random.randint(1, 100)
+        num2 = random.randint(1, 100)
+
         op = random.choice(operations)
 
         if op == "+":
@@ -94,7 +128,7 @@ def math_quiz():
         else:
             correct = num1 * num2
 
-        print("Question", i + 1)
+        print(Fore.CYAN + f"\nQuestion {i}")
 
         try:
             user = int(input(f"What is {num1} {op} {num2}? "))
@@ -102,64 +136,83 @@ def math_quiz():
             user = None
 
         if user == correct:
-            print("Correct Answer\n")
+            print(Fore.GREEN + "Correct Answer")
             score += 1
         else:
-            print("Wrong Answer")
-            print("Correct Answer:", correct, "\n")
+            print(Fore.RED + "Wrong Answer")
+            print("Correct:", correct)
 
-        total_questions += 1
+        progress(i, total_questions)
 
 
 def show_result():
-    print("\n=================================")
+
+    print(Fore.MAGENTA + "\n========================")
     print("Quiz Completed")
-    print("Your Score:", score, "/", total_questions)
 
-    if total_questions > 0:
-        percentage = (score / total_questions) * 100
+    print("Score:", score, "/", total_questions)
+
+    percent = (score / total_questions) * 100
+
+    print("Percentage:", round(percent, 2), "%")
+
+    if percent >= 80:
+        print(Fore.GREEN + "Excellent")
+    elif percent >= 50:
+        print(Fore.YELLOW + "Good Job")
     else:
-        percentage = 0
+        print(Fore.RED + "Keep Practicing")
 
-    print("Percentage:", round(percentage, 2), "%")
-
-    if percentage >= 80:
-        print("Excellent Performance")
-    elif percentage >= 50:
-        print("Good Job")
-    else:
-        print("Keep Practicing")
-
-    print("=================================\n")
+    print("========================\n")
 
 
-def main():
+def start_quiz():
 
-    print("=================================")
-    print("         QUIZ GAME PROJECT       ")
-    print("=================================")
+    global score
+    global total_questions
 
-    print("Choose Quiz Category")
-    print("1. General Knowledge")
-    print("2. Python")
-    print("3. Mathematics (350 Questions)")
+    score = 0
+    total_questions = 0
 
-    choice = input("Enter your choice: ")
+    loading("Starting Quiz")
+
+    print(Fore.BLUE + "==============================")
+    print("        QUIZ GAME PROJECT     ")
+    print("==============================\n")
+
+    print("1. General Knowledge Quiz (150+)")
+    print("2. Mathematics Quiz (350 Auto Questions)")
+
+    choice = input("\nEnter choice: ")
 
     if choice == "1":
         general_knowledge_quiz()
 
     elif choice == "2":
-        python_quiz()
-
-    elif choice == "3":
         math_quiz()
 
     else:
-        print("Invalid option")
+        print("Invalid choice")
         return
 
     show_result()
+
+
+def main():
+
+    while True:
+
+        start_quiz()
+
+        again = input("Play again? (yes/no): ").lower()
+
+        if again != "yes":
+
+            loading("Closing Game")
+
+            print("Thank you for playing Quiz Game")
+
+            break
 
 
 main()
