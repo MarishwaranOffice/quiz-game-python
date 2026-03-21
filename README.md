@@ -1,14 +1,40 @@
-Quiz Game Project using Python
+📄 Quiz Game Project
+👤 Author
+Mari Paramasivam S
 
-Features
-- 150+ General Knowledge Questions
-- 350 Auto Generated Math Questions
-- Randomized Question Order
-- Progress Bar
-- Animations and Colored Output
-- Score Percentage System
+📌 Description
 
-Technologies Used
-- Python
-- Random Module
-- Colorama
+This is a simple Quiz Game built using Python.
+It includes General Knowledge and Mathematics quizzes with scoring and feedback.
+
+🚀 Features
+
+General Knowledge Quiz (150+ questions)
+Mathematics Quiz (350 questions auto-generated)
+Timer for each question
+Progress bar
+Score and percentage calculation
+Performance feedback
+Save and view previous scores
+Replay option
+
+🛠️ Technologies
+Python
+Colorama
+
+▶️ How to Run
+
+1.Install Python
+2.Install colorama:
+pip install colorama
+3.Run:
+python quiz_game.py
+
+📂 Files
+
+quiz_game.py
+score.txt
+
+📌 Conclusion
+
+This project helped me improve my Python skills and understand how to build a real application.
