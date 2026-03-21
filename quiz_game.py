@@ -3,7 +3,7 @@
 
 import random
 import time
-from colorama import Fore, Style, init
+from colorama import Fore, init
 
 init(autoreset=True)
 
@@ -11,6 +11,7 @@ score = 0
 total_questions = 0
 
 
+# ---------------- LOADING ----------------
 def loading(text):
     print(text, end="", flush=True)
     for i in range(3):
@@ -19,19 +20,37 @@ def loading(text):
     print("\n")
 
 
+# ---------------- PROGRESS BAR ----------------
 def progress(current, total):
     percent = int((current / total) * 20)
     bar = "█" * percent + "-" * (20 - percent)
     print(f"[{bar}] {current}/{total}")
 
 
+# ---------------- SAVE SCORE ----------------
+def save_score(score):
+    with open("score.txt", "a") as file:
+        file.write(str(score) + "\n")
+
+
+# ---------------- LOAD SCORES ----------------
+def load_scores():
+    try:
+        with open("score.txt", "r") as file:
+            scores = file.readlines()
+            print(Fore.YELLOW + "\nPrevious Scores:")
+            for s in scores[-5:]:
+                print(s.strip())
+    except:
+        print(Fore.RED + "No previous scores found.")
+
+
+# ---------------- GENERAL QUIZ ----------------
 def general_knowledge_quiz():
 
-    global score
-    global total_questions
+    global score, total_questions
 
     questions = [
-
         ("What is the capital of India?", "delhi"),
         ("Which planet is known as Red Planet?", "mars"),
         ("Who developed Python language?", "guido van rossum"),
@@ -42,7 +61,6 @@ def general_knowledge_quiz():
         ("Gas plants absorb?", "carbon dioxide"),
         ("Who wrote Romeo and Juliet?", "shakespeare"),
         ("Country famous for pyramids?", "egypt"),
-
         ("Tallest mountain?", "everest"),
         ("Largest desert?", "sahara"),
         ("Closest planet to sun?", "mercury"),
@@ -53,7 +71,6 @@ def general_knowledge_quiz():
         ("Inventor of telephone?", "alexander graham bell"),
         ("Metal liquid at room temperature?", "mercury"),
         ("Capital of France?", "paris"),
-
         ("Currency of Japan?", "yen"),
         ("King of jungle?", "lion"),
         ("Boiling point of water?", "100"),
@@ -63,33 +80,23 @@ def general_knowledge_quiz():
         ("Language used for web apps?", "javascript"),
         ("Animal with longest neck?", "giraffe"),
         ("Biggest planet?", "jupiter"),
-        ("Painter of Mona Lisa?", "da vinci"),
-
-        ("Gas used in balloons?", "helium"),
-        ("Country famous for kangaroo?", "australia"),
-        ("Smallest ocean?", "arctic"),
-        ("Device that measures temperature?", "thermometer"),
-        ("National bird of India?", "peacock"),
-        ("Planet with rings?", "saturn"),
-        ("Ship of desert animal?", "camel"),
-        ("Currency of USA?", "dollar"),
-        ("Largest continent?", "asia"),
-        ("Vitamin from sunlight?", "vitamin d")
-
+        ("Painter of Mona Lisa?", "da vinci")
     ]
 
-    # repeat list to exceed 150 questions
-    questions = questions * 4
-
+    # 30 × 5 = 150 questions
+    questions = questions * 5
     random.shuffle(questions)
 
     total_questions = len(questions)
 
-    print(Fore.YELLOW + "\nGeneral Knowledge Quiz\n")
+    print(Fore.YELLOW + "\nGeneral Knowledge Quiz (150+ Questions)\n")
 
     for i, (question, answer) in enumerate(questions, 1):
 
         print(Fore.CYAN + f"\nQuestion {i}")
+
+        print("You have 5 seconds to answer...")
+        time.sleep(5)
 
         user = input(question + " ").strip().lower()
 
@@ -103,10 +110,10 @@ def general_knowledge_quiz():
         progress(i, total_questions)
 
 
+# ---------------- MATH QUIZ ----------------
 def math_quiz():
 
-    global score
-    global total_questions
+    global score, total_questions
 
     total_questions = 350
 
@@ -130,6 +137,9 @@ def math_quiz():
 
         print(Fore.CYAN + f"\nQuestion {i}")
 
+        print("You have 5 seconds to answer...")
+        time.sleep(5)
+
         try:
             user = int(input(f"What is {num1} {op} {num2}? "))
         except:
@@ -145,6 +155,7 @@ def math_quiz():
         progress(i, total_questions)
 
 
+# ---------------- RESULT ----------------
 def show_result():
 
     print(Fore.MAGENTA + "\n========================")
@@ -152,7 +163,7 @@ def show_result():
 
     print("Score:", score, "/", total_questions)
 
-    percent = (score / total_questions) * 100
+    percent = (score / total_questions) * 100 if total_questions != 0 else 0
 
     print("Percentage:", round(percent, 2), "%")
 
@@ -165,39 +176,42 @@ def show_result():
 
     print("========================\n")
 
+    save_score(score)
 
+
+# ---------------- START ----------------
 def start_quiz():
 
-    global score
-    global total_questions
+    global score, total_questions
 
     score = 0
     total_questions = 0
 
     loading("Starting Quiz")
 
+    load_scores()
+
     print(Fore.BLUE + "==============================")
     print("        QUIZ GAME PROJECT     ")
     print("==============================\n")
 
     print("1. General Knowledge Quiz (150+)")
-    print("2. Mathematics Quiz (350 Auto Questions)")
+    print("2. Mathematics Quiz (350 Questions)")
 
     choice = input("\nEnter choice: ")
 
     if choice == "1":
         general_knowledge_quiz()
-
     elif choice == "2":
         math_quiz()
-
     else:
-        print("Invalid choice")
+        print(Fore.RED + "Invalid choice")
         return
 
     show_result()
 
 
+# ---------------- MAIN ----------------
 def main():
 
     while True:
@@ -207,11 +221,8 @@ def main():
         again = input("Play again? (yes/no): ").lower()
 
         if again != "yes":
-
             loading("Closing Game")
-
             print("Thank you for playing Quiz Game")
-
             break
 
 
